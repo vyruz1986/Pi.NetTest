@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build", "${workspaceFolder}/Pi.NetTest.csproj"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "-r",
+        "linux-arm",
+        "/p:ShowLinkerSizeComparison=true"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "pushtopi",
+      "type": "shell",
+      "dependsOn": "publish",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "scp -r .\\bin\\Debug\\netcoreapp3.1\\linux-arm\\publish\\* pi@RPI4-AlexDev1:~/debug/Pi.NetTest",
+      "problemMatcher": []
+    }
+  ]
+}
